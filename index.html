@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML/CSS Interview Preparation Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #ecf0f1;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: #ecf0f1;
+            margin-bottom: 30px;
+            padding: 40px 20px;
+            background: rgba(52, 73, 94, 0.9);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            background: #000000;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .section {
+            border-bottom: 1px solid #4a5f7a;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-header {
+            padding: 20px 25px;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            user-select: none;
+        }
+
+        .section-header:hover {
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            transform: translateY(-1px);
+        }
+
+        .section-header h2 {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.4rem;
+            color: #3498db;
+        }
+
+        .toggle-icon {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+            color: #6c757d;
+        }
+
+        .section.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .section-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background: #2c3e50;
+        }
+
+        .section.active .section-content {
+            max-height: 15000px;
+            transition: max-height 0.5s ease-in;
+        }
+
+        .section-inner {
+            padding: 25px;
+        }
+
+        .subsection {
+            margin-bottom: 30px;
+        }
+
+        .subsection h3 {
+            color: #9fafbf;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            border-left: 4px solid #007bff;
+            padding-left: 15px;
+        }
+
+        .subsection h4 {
+            color: #6c757d;
+            margin: 20px 0 10px 0;
+            font-size: 1.1rem;
+        }
+
+        pre {
+            background: #000000;
+            border: 1px solid #1b1c1c;
+            border-radius: 8px;
+            padding: 15px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-size: 0.9rem;
+        }
+
+        code {
+            background: #090909;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #1a2525 0%, #090808 100%);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #093a42;
+        }
+
+        .tip {
+            background: linear-gradient(120deg, #292e2a 0%, #c3e6cb 100%);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #145122;
+        }
+
+        .warning {
+            background: linear-gradient(120deg, #292721 0%, #2c291e 100%);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #ffc107;
+        }
+
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        .expand-all, .collapse-all {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: #34495e;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,123,255,0.3);
+        }
+
+        .expand-all:hover, .collapse-all:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,123,255,0.4);
+        }
+
+        .controls {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, #007bff, #28a745);
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .section-header {
+                padding: 15px 20px;
+            }
+
+            .section-inner {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="container">
+    <div class="header">
+        <h1>🚀 HTML/CSS Interview Guide</h1>
+        <p>Senior HTML/Markup Developer Preparation</p>
+    </div>
+
+    <div class="controls">
+        <button class="expand-all" onclick="expandAll()">📂 Expand All</button>
+        <button class="collapse-all" onclick="collapseAll()">📁 Collapse All</button>
+    </div>
+
+    <div class="content">
+        <!-- HTML Fundamentals -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2>1. HTML Fundamentals <span class="toggle-icon">▼</span></h2>
+            </div>
+            <div class="section-content">
+                <div class="section-inner">
+                    <div class="subsection">
+                        <h3>Semantic HTML</h3>
+                        <p>Use HTML elements for their intended meaning, not appearance.</p>
+                        <pre><code>&lt;header&gt;
+  &lt;nav&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href="#home"&gt;Home&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href="#about"&gt;About&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/nav&gt;
+&lt;/header&gt;
+
+&lt;main&gt;
+  &lt;article&gt;
+    &lt;h1&gt;Article Title&lt;/h1&gt;
+    &lt;section&gt;
+      &lt;h2&gt;Section Heading&lt;/h2&gt;
+      &lt;p&gt;Content...&lt;/p&gt;
+    &lt;/section&gt;
+  &lt;/article&gt;
+&lt;/main&gt;</code></pre>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>HTML5 Elements</h3>
+                        <ul>
+                            <li><code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;aside&gt;</code>, <code>&lt;footer&gt;</code></li>
+                            <li><code>&lt;figure&gt;</code>, <code>&lt;figcaption&gt;</code>, <code>&lt;details&gt;</code>, <code>&lt;summary&gt;</code></li>
+                            <li><code>&lt;time&gt;</code>, <code>&lt;mark&gt;</code>, <code>&lt;progress&gt;</code></li>
+                        </ul>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Form Elements</h3>
+                        <pre><code>&lt;form&gt;
+  &lt;label for="email"&gt;Email:&lt;/label&gt;
+  &lt;input type="email" id="email" name="email" required&gt;
+
+  &lt;fieldset&gt;
+    &lt;legend&gt;Preferences&lt;/legend&gt;
+    &lt;input type="checkbox" id="newsletter" name="newsletter"&gt;
+    &lt;label for="newsletter"&gt;Subscribe&lt;/label&gt;
+  &lt;/fieldset&gt;
+
+  &lt;button type="submit"&gt;Submit&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CSS Fundamentals -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2>2. CSS Fundamentals <span class="toggle-icon">▼</span></h2>
+            </div>
+            <div class="section-content">
+                <div class="section-inner">
+                    <div class="subsection">
+                        <h3>Box Model</h3>
+                        <pre><code>.box {
+  width: 200px;
+  height: 100px;
+  padding: 20px;
+  border: 5px solid #000;
+  margin: 10px;
+  box-sizing: border-box; /* width includes padding and border */
+}</code></pre>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Positioning</h3>
+                        <pre><code>/* Static (default) */
+.static { position: static; }
+
+/* Relative - relative to original position */
+.relative {
+  position: relative;
+  top: 10px;
+  left: 20px;
+}
+
+/* Absolute - relative to nearest positioned parent */
+.absolute {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+/* Fixed - relative to viewport */
+.fixed {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+/* Sticky - combination of relative and fixed */
+.sticky {
+  position: sticky;
+  top: 0;
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Flexbox -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2>3. Flexbox <span class="toggle-icon">▼</span></h2>
+            </div>
+            <div class="section-content">
+                <div class="section-inner">
+                    <div class="subsection">
+                        <h3>Container Properties</h3>
+                        <pre><code>.flex-container {
+  display: flex;
+
+  /* Direction */
+  flex-direction: row | row-reverse | column | column-reverse;
+
+  /* Wrapping */
+  flex-wrap: nowrap | wrap | wrap-reverse;
+
+  /* Alignment */
+  justify-content: flex-start | center | space-between | space-around;
+  align-items: stretch | flex-start | flex-end | center | baseline;
+}</code></pre>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Item Properties</h3>
+                        <pre><code>.flex-item {
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: auto;
+
+  /* Shorthand */
+  flex: 1 1 auto;
+
+  /* Individual alignment */
+  align-self: auto | flex-start | flex-end | center;
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CSS Grid -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2>4. CSS Grid <span class="toggle-icon">▼</span></h2>
+            </div>
+            <div class="section-content">
+                <div class="section-inner">
+                    <div class="subsection">
+                        <h3>Grid Container</h3>
+                        <pre><code>.grid-container {
+  display: grid;
+
+  /* Define columns and rows */
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-rows: 100px auto 50px;
+
+  /* Gaps */
+  gap: 10px;
+
+  /* Areas */
+  grid-template-areas:
+    "header header header"
+    "sidebar main main"
+    "footer footer footer";
+}</code></pre>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Grid Items</h3>
+                        <pre><code>.grid-item {
+  /* Position by lines */
+  grid-column: 1 / 3;
+  grid-row: 2 / 4;
+
+  /* Position by areas */
+  grid-area: header;
+
+  /* Alignment */
+  justify-self: start | end | center | stretch;
+  align-self: start | end | center | stretch;
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Responsive Design -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2>5. Responsive Design <span class="toggle-icon">▼</span></h2>
+            </div>
+            <div class="section-content">
+                <div class="section-inner">
+                    <div class="subsection">
+                        <h3>Media Queries</h3>
+                        <pre><code>/* Mobile First */
+.container {
+  width: 100%;
+  padding: 10px;
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+  .container {
+    max-width: 750px;
+    margin: 0 auto;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1200px;
+    padding: 20px;
+  }
+}</code></pre>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Viewport Meta Tag</h3>
+                        <pre><code>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CSS Preprocessors -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2>6. CSS Preprocessors (Sass/Less) <span class="toggle-icon">▼</span></h2>
+            </div>
+            <div class="section-content">
+                <div class="section-inner">
+                    <div class="highlight">
+                        <strong>🔥 Requirement:</strong> Strong knowledge required!
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Sass/SCSS Syntax</h3>
+                        <pre><code>// Variables
+$primary-color: #007bff;
+$font-size: 16px;
+
+// Nesting
+.navbar {
+  background: $primary-color;
+
+  .nav-item {
+    padding: 10px;
+
+    &:hover {
+      background: darken($primary-color, 10%);
+    }
+  }
+}
+
+// Mixins
+@mixin button-style($bg-color, $text-color: white) {
+  background: $bg-color;
+  color: $text-color;
+  padding: 10px 15px;
+  border: none;
+
+  &:hover {
+    background: darken($bg-color, 10%);
+  }
+}
+
+.btn-primary {
+  @include button-style($primary-color);
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CSS/JS Animations -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2>7. CSS/JS Animations <span class="toggle-icon">▼</span></h2>
+            </div>
+            <div class="section-content">
+                <div class="section-inner">
+                    <div class="highlight">
+                        <strong>🔥 Requirement:</strong> Strong knowledge of CSS/JS animation!
+                    </div>
+
+                    <div class="subsection">
+                        <h3>CSS Animations</h3>
+                        <pre><code>/* Loading spinner */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+/* Slide in animation */
+@keyframes slideIn {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.slide-in {
+  animation: slideIn 0.5s ease-out;
+}</code></pre>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Performance Tips</h3>
+                        <div class="tip">
+                            <strong>💡 Performance:</strong> Use <code>transform</code> and <code>opacity</code> for smooth animations. Avoid animating layout properties like <code>width</code>, <code>height</code>, <code>top</code>, <code>left</code>.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Build Tools -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2>8. Build Tools (Webpack, Gulp) <span class="toggle-icon">▼</span></h2>
+            </div>
+            <div class="section-content">
+                <div class="section-inner">
+                    <div class="highlight">
+                        <strong>💎 Nice to Have:</strong> Understanding of front-end build tools
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Webpack Configuration</h3>
+                        <pre><code>// webpack.config.js
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js'
+  },
+  module: {
+    rules: [
+      {
+        test: /\.scss$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'sass-loader'
+        ]
+      }
+    ]
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './src/index.html'
+    }),
+    new MiniCssExtractPlugin({
+      filename: 'styles.css'
+    })
+  ]
+};</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance Optimization -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2>9. Performance Optimization <span class="toggle-icon">▼</span></h2>
+            </div>
+            <div class="section-content">
+                <div class="section-inner">
+                    <div class="highlight">
+                        <strong>🔥 Requirement:</strong> Understanding of web application performance optimization
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Critical CSS</h3>
+                        <pre><code>&lt;!-- Inline critical CSS --&gt;
+&lt;style&gt;
+  /* Above-the-fold styles */
+  body { font-family: Arial, sans-serif; margin: 0; }
+  .header { background: #333; color: white; padding: 1rem; }
+&lt;/style&gt;
+
+&lt;!-- Load non-critical CSS asynchronously --&gt;
+&lt;link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'"&gt;</code></pre>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Image Optimization</h3>
+                        <pre><code>&lt;!-- WebP with fallback --&gt;
+&lt;picture&gt;
+  &lt;source srcset="image.webp" type="image/webp"&gt;
+  &lt;source srcset="image.avif" type="image/avif"&gt;
+  &lt;img src="image.jpg" alt="Description" loading="lazy"&gt;
+&lt;/picture&gt;</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- HTML Email Templates -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2>10. HTML Email Templates <span class="toggle-icon">▼</span></h2>
+            </div>
+            <div class="section-content">
+                <div class="section-inner">
+                    <div class="highlight">
+                        <strong>💎 Nice to Have:</strong> Knowledge of HTML email templates
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Basic Email Structure</h3>
+                        <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+&lt;/head&gt;
+&lt;body style="margin: 0; padding: 0; background-color: #f4f4f4;"&gt;
+  &lt;table role="presentation" width="100%" cellspacing="0" cellpadding="0"&gt;
+    &lt;tr&gt;
+      &lt;td align="center"&gt;
+        &lt;table role="presentation" width="600" style="background-color: white;"&gt;
+          &lt;tr&gt;
+            &lt;td style="padding: 20px;"&gt;
+              &lt;h1 style="color: #333; font-family: Arial, sans-serif;"&gt;Hello!&lt;/h1&gt;
+              &lt;p style="color: #666; font-family: Arial, sans-serif;"&gt;Content...&lt;/p&gt;
+            &lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/table&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Common Interview Questions -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2>11. Common Interview Questions <span class="toggle-icon">▼</span></h2>
+            </div>
+            <div class="section-content">
+                <div class="section-inner">
+                    <div class="subsection">
+                        <h3>HTML Questions</h3>
+                        <h4>1. What is DOCTYPE and why is it needed?</h4>
+                        <p>DOCTYPE tells the browser which HTML version to use. <code>&lt;!DOCTYPE html&gt;</code> for HTML5.</p>
+
+                        <h4>2. Difference between div and span?</h4>
+                        <ul>
+                            <li><code>div</code> is a block-level element</li>
+                            <li><code>span</code> is an inline element</li>
+                        </ul>
+
+                        <h4>3. What is semantic HTML?</h4>
+                        <p>Using elements for their intended meaning. Improves SEO and accessibility.</p>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>CSS Questions</h3>
+                        <h4>1. Difference between margin and padding?</h4>
+                        <ul>
+                            <li><code>margin</code> is external spacing (outside border)</li>
+                            <li><code>padding</code> is internal spacing (inside border)</li>
+                        </ul>
+
+                        <h4>2. What is CSS specificity?</h4>
+                        <p>Priority system: ID (100) > Class (10) > Element (1)</p>
+
+                        <h4>3. When to use CSS Grid vs Flexbox?</h4>
+                        <ul>
+                            <li><strong>Grid:</strong> two-dimensional layouts</li>
+                            <li><strong>Flexbox:</strong> one-dimensional layouts</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tips for Interview -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2>12. Tips for Interview <span class="toggle-icon">▼</span></h2>
+            </div>
+            <div class="section-content">
+                <div class="section-inner">
+                    <div class="warning">
+                        <strong>⚠️ Important:</strong> This is a Senior position requiring 5+ years of experience. Show deep understanding!
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Key Focus Areas</h3>
+                        <ol>
+                            <li><strong>CSS Preprocessors</strong> - Sass/Less knowledge is required</li>
+                            <li><strong>Animations</strong> - Strong CSS/JS animation skills needed</li>
+                            <li><strong>Cross-browser compatibility</strong> - Think IE, Safari, Chrome</li>
+                            <li><strong>Performance optimization</strong> - Critical CSS, lazy loading</li>
+                            <li><strong>UI/UX understanding</strong> - User-centered thinking</li>
+                            <li><strong>Figma/Sketch/Photoshop</strong> - Design tool familiarity</li>
+                        </ol>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Interview Process</h3>
+                        <ol>
+                            <li>Recruiter call</li>
+                            <li><strong>HackerRank test</strong> (what you're doing now)</li>
+                            <li>Technical interview</li>
+                            <li>Final interview</li>
+                            <li>Offer</li>
+                        </ol>
+                    </div>
+
+                    <div class="tip">
+                        <strong>💡 Pro Tips:</strong>
+                        <ul>
+                            <li>Read questions carefully - don't rush</li>
+                            <li>Start with simple solutions, build complexity</li>
+                            <li>Check syntax carefully</li>
+                            <li>Think about accessibility</li>
+                            <li>Consider performance impact</li>
+                            <li>Use semantic HTML</li>
+                            <li>Show Sass/animation knowledge</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technical Interview Preparation -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2>13. Technical Interview Preparation (English) <span class="toggle-icon">▼</span></h2>
+            </div>
+            <div class="section-content">
+                <div class="section-inner">
+                    <div class="highlight">
+                        <strong>🎯 Interview:</strong> Technical interview on English!
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Key English Phrases</h3>
+                        <h4>Opening Phrases</h4>
+                        <ul>
+                            <li>"Thank you for this opportunity to discuss my experience..."</li>
+                            <li>"I'm excited to learn more about this role at BrainRocket..."</li>
+                            <li>"Could you repeat the question, please?" (if needed)</li>
+                            <li>"That's an interesting question, let me think about it..."</li>
+                        </ul>
+
+                        <h4>Technical Explanation Phrases</h4>
+                        <ul>
+                            <li>"In my experience, the best approach would be..."</li>
+                            <li>"There are several ways to handle this, but I prefer..."</li>
+                            <li>"The main advantage of this approach is..."</li>
+                            <li>"Let me walk you through my thought process..."</li>
+                        </ul>
+
+                        <h4>When You Don't Know Something</h4>
+                        <ul>
+                            <li>"I haven't worked with that specific technology, but I understand the concept..."</li>
+                            <li>"That's not something I've encountered recently, but I would approach it by..."</li>
+                            <li>"I'm not familiar with that particular framework, but I'd be eager to learn..."</li>
+                        </ul>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Common Questions & Answers</h3>
+
+                        <h4>Q: "What is semantic HTML and why is it important?"</h4>
+                        <p><strong>A:</strong> "Semantic HTML means using HTML elements for their intended purpose rather than just for appearance. For example, using <code>&lt;nav&gt;</code> for navigation, <code>&lt;article&gt;</code> for content, and <code>&lt;button&gt;</code> for actions. It's important because it improves accessibility for screen readers, helps with SEO by giving search engines better context, and makes code more maintainable for other developers."</p>
+
+                        <h4>Q: "Explain the CSS Box Model."</h4>
+                        <p><strong>A:</strong> "The CSS Box Model describes how elements are structured. From inside out, we have: content (the actual text or image), padding (space inside the element), border (the element's boundary), and margin (space outside the element). Understanding this is crucial for layout because these properties affect the total space an element occupies."</p>
+
+                        <h4>Q: "What's the difference between Flexbox and Grid?"</h4>
+                        <p><strong>A:</strong> "Flexbox is designed for one-dimensional layouts - either rows or columns. It's great for components like navigation bars or centering content. CSS Grid is for two-dimensional layouts where you need to control both rows and columns simultaneously. Grid is better for page layouts, while Flexbox is better for component layouts. Often, I use them together - Grid for the overall page structure and Flexbox for individual components."</p>
+
+                        <h4>Q: "How do you center a div both horizontally and vertically?"</h4>
+                        <p><strong>A:</strong> "There are several methods. My preferred approach is using Flexbox: set the parent to <code>display: flex</code>, <code>justify-content: center</code> for horizontal centering, and <code>align-items: center</code> for vertical centering. Alternatively, with Grid, you can use <code>display: grid</code> and <code>place-items: center</code>."</p>
+
+                        <h4>Q: "What are the benefits of using Sass?"</h4>
+                        <p><strong>A:</strong> "Sass adds powerful features to CSS like variables for consistent theming, nesting for better organization, mixins for reusable code blocks, and functions for calculations. It also supports imports to split code into maintainable files. These features make CSS more maintainable and reduce repetition."</p>
+
+                        <h4>Q: "Explain the difference between em and rem units."</h4>
+                        <p><strong>A:</strong> "<code>em</code> is relative to the parent element's font size, while <code>rem</code> is relative to the root element's font size. <code>rem</code> is generally more predictable because it doesn't compound. For example, if you have nested elements with <code>font-size: 1.2em</code>, the inner elements will be 1.2 times the parent's size, which can lead to unexpected results. <code>rem</code> avoids this issue."</p>
+
+                        <h4>Q: "How do you approach responsive design?"</h4>
+                        <p><strong>A:</strong> "I follow a mobile-first approach, starting with the smallest screen size and progressively enhancing for larger screens using media queries. I use relative units like percentages, em, and rem instead of fixed pixels. I also consider touch interfaces, ensure adequate tap targets, and test across different devices. Tools like CSS Grid and Flexbox make responsive layouts much easier to manage."</p>
+
+                        <h4>Q: "What is CSS specificity and how do you manage it?"</h4>
+                        <p><strong>A:</strong> "CSS specificity determines which styles are applied when multiple rules target the same element. It's calculated based on selector types: inline styles have the highest specificity, then IDs (100 points), classes and attributes (10 points), and elements (1 point). For example, <code>#header .nav</code> has higher specificity than <code>.nav</code>. I manage it by keeping specificity low, using classes instead of IDs for styling, and avoiding <code>!important</code> unless absolutely necessary."</p>
+
+                        <h4>Q: "Explain CSS transitions vs animations."</h4>
+                        <p><strong>A:</strong> "Transitions are for simple state changes between two values, triggered by events like hover. They're defined with <code>transition: property duration timing-function delay</code>. Animations use keyframes and can create complex, multi-step animations that run automatically or on trigger. Transitions are simpler and better for interactive effects, while animations are better for complex sequences or loading indicators."</p>
+
+                        <h4>Q: "Which CSS properties are best for performance in animations?"</h4>
+                        <p><strong>A:</strong> "Properties that can be GPU-accelerated perform best: <code>transform</code> and <code>opacity</code>. These don't trigger layout recalculations. Avoid animating properties like <code>width</code>, <code>height</code>, <code>top</code>, or <code>left</code> as they cause expensive reflows. Using <code>will-change</code> can hint to the browser to optimize for animations, but should be used sparingly and removed after animation completes."</p>
+
+                        <h4>Q: "How do you handle cross-browser compatibility?"</h4>
+                        <p><strong>A:</strong> "I start by using progressive enhancement - building a solid foundation that works everywhere, then adding enhancements for modern browsers. I use tools like Autoprefixer for vendor prefixes, Can I Use to check feature support, and polyfills for missing functionality. I test in multiple browsers including Safari, Chrome, Firefox, and when required, Internet Explorer. I also use feature detection with <code>@supports</code> queries instead of browser detection."</p>
+
+                        <h4>Q: "What is critical CSS and how do you implement it?"</h4>
+                        <p><strong>A:</strong> "Critical CSS is the minimum CSS needed to render above-the-fold content. By inlining this CSS in the HTML head and loading the rest asynchronously, we can improve perceived performance. Users see styled content faster because they don't have to wait for the entire CSS file to download. I implement it using tools like Critical or manually identifying and extracting the essential styles for the viewport."</p>
+
+                        <h4>Q: "How do you work with Figma/Sketch designs?"</h4>
+                        <p><strong>A:</strong> "I start by examining the design system - colors, typography, spacing, and components. I extract assets like images and icons, and note the spacing and layout patterns. I use Figma's inspect panel to get exact measurements, colors, and CSS properties. I also communicate with designers about responsive behavior, hover states, and edge cases that might not be shown in static designs. I always ask about design tokens and component libraries to ensure consistency."</p>
+
+                        <h4>Q: "Explain Sass mixins and when you'd use them."</h4>
+                        <p><strong>A:</strong> "Mixins are reusable blocks of CSS declarations that can accept parameters. They're useful for vendor prefixes, complex animations, or repeated patterns. For example, I might create a button mixin that accepts parameters for color and size, then use it across different button styles. Here's an example: <code>@mixin button($bg-color, $text-color: white) { background: $bg-color; color: $text-color; }</code>. This reduces code duplication and ensures consistency."</p>
+
+                        <h4>Q: "How do you optimize images for web performance?"</h4>
+                        <p><strong>A:</strong> "I use multiple strategies: choose the right format (WebP for photos, SVG for icons), implement responsive images with <code>srcset</code> and <code>sizes</code> attributes, use lazy loading with <code>loading="lazy"</code>, compress images appropriately, and provide fallbacks for older browsers using the <code>&lt;picture&gt;</code> element. I also consider using modern formats like AVIF when supported, and optimize SVGs by removing unnecessary metadata."</p>
+
+                        <h4>Q: "What's the difference between display: none and visibility: hidden?"</h4>
+                        <p><strong>A:</strong> "<code>display: none</code> completely removes the element from the document flow - it takes up no space and is not accessible to screen readers. <code>visibility: hidden</code> hides the element but it still occupies space in the layout and remains in the accessibility tree. Use <code>display: none</code> when you want to completely remove an element, and <code>visibility: hidden</code> when you want to hide it but maintain the layout."</p>
+
+                        <h4>Q: "How do you approach building a design system?"</h4>
+                        <p><strong>A:</strong> "I start with design tokens - colors, typography, spacing, and sizing scales. Then I create base components like buttons, inputs, and cards using CSS classes or CSS-in-JS. I ensure components are modular, reusable, and follow consistent naming conventions. I document usage patterns and provide examples. For maintainability, I use Sass variables or CSS custom properties for theming, and establish clear guidelines for extending the system."</p>
+
+                        <h4>Q: "What build tools have you worked with?"</h4>
+                        <p><strong>A:</strong> "I have experience with Webpack for bundling and asset optimization, Gulp for task automation like Sass compilation and image optimization, and modern tools like Vite for faster development. I've configured build processes to handle Sass preprocessing, autoprefixing, minification, and asset optimization. I also work with package managers like npm or yarn to manage dependencies and scripts."</p>
+
+                        <h4>Q: "How do you debug CSS issues?"</h4>
+                        <p><strong>A:</strong> "I use browser developer tools extensively - the Elements panel to inspect computed styles, the Console for JavaScript errors affecting layout, and the Performance tab for rendering issues. I check for CSS specificity conflicts, validate HTML markup, and test across different browsers. For layout issues, I use CSS Grid/Flexbox debugging tools. I also use techniques like adding border outlines temporarily to visualize element boundaries."</p>
+
+                        <h4>Q: "What's your experience with CSS frameworks?"</h4>
+                        <p><strong>A:</strong> "I've worked with Bootstrap for rapid prototyping and Tailwind CSS for utility-first development. While frameworks speed up development, I prefer building custom solutions when possible to avoid bloat and ensure unique design requirements are met. When using frameworks, I customize them to match the design system and only include necessary components to optimize bundle size."</p>
+
+                        <h4>Q: "How do you handle browser-specific issues?"</h4>
+                        <p><strong>A:</strong> "I use progressive enhancement and feature detection rather than browser detection. CSS <code>@supports</code> queries help provide fallbacks for unsupported features. For older browsers like IE11, I use polyfills sparingly and provide graceful degradation. I test regularly across target browsers and use tools like BrowserStack for comprehensive testing. I also keep vendor prefixes updated using Autoprefixer."</p>
+
+                        <h4>Q: "Describe your workflow from design to implementation."</h4>
+                        <p><strong>A:</strong> "First, I analyze the design in Figma/Sketch to understand the layout structure, identify reusable components, and extract design tokens. I plan the HTML structure using semantic elements, then build mobile-first CSS with Sass. I implement responsive breakpoints, add interactions and animations, test across browsers and devices, and optimize for performance. Throughout the process, I collaborate with designers for clarifications and with developers for integration."</p>
+
+                        <h4>Q: "How do you optimize CSS performance?"</h4>
+                        <p><strong>A:</strong> "Several strategies: minimize CSS file size through compression and removing unused styles, use efficient selectors (avoid deep nesting), leverage browser caching, implement critical CSS for above-the-fold content, and use CSS preprocessing to optimize during build. I also avoid expensive properties like box-shadow on elements that change frequently and use <code>transform</code> and <code>opacity</code> for animations."</p>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>"Nice to Have" Topics - Advanced Questions</h3>
+
+                        <h4>Q: "What's your experience with build tools like Webpack and Gulp?"</h4>
+                        <p><strong>A:</strong> "I've used Webpack for module bundling, code splitting, and asset optimization. I configure loaders for Sass, PostCSS, and file processing, and plugins for HTML generation and CSS extraction. With Gulp, I've set up task automation for Sass compilation, image optimization, and live reloading. Webpack is great for complex applications with its dependency graph, while Gulp excels at simple task automation. I prefer Webpack for modern projects due to its ecosystem and hot module replacement."</p>
+
+                        <h4>Q: "How do HTML email templates differ from regular HTML?"</h4>
+                        <p><strong>A:</strong> "Email HTML is much more restrictive. You need to use table-based layouts for structure, inline CSS for better compatibility, and avoid modern CSS features like Flexbox or Grid. Different email clients have varying support - Outlook uses Word's rendering engine, which is particularly limited. I use techniques like conditional comments for Outlook, ensure proper encoding, test across multiple clients, and keep designs simple. Tools like Litmus or Email on Acid help with testing."</p>
+
+                        <h4>Q: "What CSS frameworks have you worked with and how do you choose one?"</h4>
+                        <p><strong>A:</strong> "I've worked with Bootstrap for rapid prototyping - it's great for quick layouts and has extensive components. Tailwind CSS for utility-first development - excellent for custom designs without writing custom CSS. Foundation for more flexible grid systems. I choose based on project needs: Bootstrap for quick prototypes, Tailwind for custom designs with utility classes, or no framework for unique designs. I always consider bundle size and customization needs."</p>
+
+                        <h4>Q: "Have you worked with template engines like Pug or Handlebars?"</h4>
+                        <p><strong>A:</strong> "Yes, I've used Pug for its clean, indentation-based syntax that compiles to HTML. It's great for reducing repetition with mixins and includes. Handlebars for dynamic content rendering - useful for generating HTML from JSON data. Pug example: <code>div.container h1= title</code> compiles to clean HTML. Handlebars uses <code>{{variable}}</code> syntax for data binding. Both help with maintainability and reduce HTML duplication in larger projects."</p>
+
+                        <h4>Q: "Do you have experience with Canvas API, WebGL, or Three.js?"</h4>
+                        <p><strong>A:</strong> "I have basic experience with Canvas API for drawing graphics and simple animations - things like drawing charts, image manipulation, or creating interactive elements. I've explored Three.js for 3D graphics in web browsers, creating simple 3D scenes and animations. While not my primary expertise, I understand the concepts and have used them for specific projects requiring custom graphics or data visualizations. I'm always eager to expand my knowledge in these areas."</p>
+
+                        <h4>Q: "What is GSAP and when would you use it?"</h4>
+                        <p><strong>A:</strong> "GSAP (GreenSock Animation Platform) is a powerful JavaScript animation library that's more performant and feature-rich than CSS animations for complex sequences. I'd use it for timeline-based animations, morphing SVGs, complex interactive animations, or when I need precise control over timing and easing. It's particularly useful for marketing websites, interactive presentations, or any project requiring sophisticated animations. GSAP handles browser inconsistencies well and provides excellent performance."</p>
+
+                        <h4>Q: "How do you approach learning new front-end technologies?"</h4>
+                        <p><strong>A:</strong> "I start with official documentation and try to understand the core concepts and use cases. I build small practice projects to get hands-on experience, follow industry blogs and tutorials, and participate in developer communities. For build tools, I set up simple configurations first, then gradually add complexity. For new APIs like Canvas or WebGL, I start with basic examples and progressively tackle more complex scenarios. I believe in learning by doing and applying new knowledge to real projects when possible."</p>
+
+                        <h4>Q: "How would you optimize a build process for a large project?"</h4>
+                        <p><strong>A:</strong> "I'd implement code splitting to load only necessary code, use tree shaking to eliminate dead code, optimize asset loading with lazy loading and preloading strategies, and set up efficient caching strategies. For Webpack, I'd configure multiple entry points, use dynamic imports for route-based splitting, and optimize chunk splitting. I'd also implement development vs production configurations, use source maps for debugging, and set up automated testing in the build pipeline."</p>
+
+                        <h4>Q: "What challenges have you faced with email template development?"</h4>
+                        <p><strong>A:</strong> "The biggest challenge is inconsistent rendering across email clients. Outlook's Word engine doesn't support many modern CSS features, Gmail strips certain styles, and mobile clients have their own quirks. I've learned to use table-based layouts, inline styles, test extensively across clients, provide fallbacks for unsupported features, and keep designs simple yet effective. Testing tools like Litmus are essential for ensuring consistency across the email ecosystem."</p>
+
+                        <h4>Q: "How do you handle responsive design in email templates?"</h4>
+                        <p><strong>A:</strong> "Email responsive design is tricky due to limited media query support. I use hybrid coding techniques - fluid tables that stack on mobile, conditional CSS for better clients, and progressive enhancement. The approach involves using <code>max-width</code> instead of fixed widths, <code>mso-</code> conditional comments for Outlook, and testing extensively. Some clients don't support media queries at all, so the design must work without them while being enhanced for supporting clients."</p>
+
+                        <h4>Q: "What's your experience with CSS-in-JS vs traditional CSS approaches?"</h4>
+                        <p><strong>A:</strong> "I've worked with both approaches. Traditional CSS with Sass gives better separation of concerns, easier debugging, and better performance for static styles. CSS-in-JS (like styled-components) provides dynamic styling, component-scoped styles, and better integration with JavaScript logic. I choose based on project needs: traditional CSS for content sites, CSS-in-JS for component-heavy applications where styles need to be dynamic based on props or state."</p>
+
+                        <h4>Q: "How do you approach creating interactive data visualizations?"</h4>
+                        <p><strong>A:</strong> "I start by understanding the data structure and visualization requirements. For simple charts, I might use CSS and HTML with some JavaScript for interactivity. For complex visualizations, I'd use D3.js for data binding and SVG manipulation, or Canvas API for performance-critical animations. Three.js for 3D visualizations when needed. I focus on accessibility, ensuring charts are readable by screen readers, and provide alternative data access methods. Performance optimization is crucial for large datasets."</p>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Problem-Solving Scenarios</h3>
+
+                        <h4>Scenario 1: "How would you implement a responsive navigation menu?"</h4>
+                        <p><strong>Approach:</strong></p>
+                        <ol>
+                            <li>"I'd start with a semantic HTML structure using <code>nav</code> and <code>ul</code> elements"</li>
+                            <li>"Use Flexbox for the desktop layout with <code>justify-content: space-between</code>"</li>
+                            <li>"Implement a mobile-first approach with a hamburger menu for smaller screens"</li>
+                            <li>"Use CSS media queries to switch between layouts"</li>
+                            <li>"Ensure keyboard accessibility and proper ARIA labels"</li>
+                        </ol>
+
+                        <h4>Scenario 2: "A client reports their website is slow. How do you investigate?"</h4>
+                        <p><strong>Approach:</strong></p>
+                        <ol>
+                            <li>"First, I'd use browser dev tools to check the Performance tab"</li>
+                            <li>"Look at CSS file sizes and unused styles"</li>
+                            <li>"Check for render-blocking resources"</li>
+                            <li>"Analyze images - are they optimized and using modern formats?"</li>
+                            <li>"Review animations and check if they're causing layout thrashing"</li>
+                        </ol>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Questions to Ask Them</h3>
+                        <h4>About the Role</h4>
+                        <ul>
+                            <li>"What does a typical day look like for this position?"</li>
+                            <li>"What are the main challenges the team is currently facing?"</li>
+                            <li>"How do you handle browser compatibility requirements?"</li>
+                        </ul>
+
+                        <h4>About Technology</h4>
+                        <ul>
+                            <li>"What's your current tech stack and build process?"</li>
+                            <li>"How do you approach responsive design across different devices?"</li>
+                            <li>"Do you have design systems or component libraries in place?"</li>
+                        </ul>
+
+                        <h4>About Team</h4>
+                        <ul>
+                            <li>"How is the development team structured?"</li>
+                            <li>"What's the collaboration process between designers and developers?"</li>
+                            <li>"How do you handle code reviews and knowledge sharing?"</li>
+                        </ul>
+                    </div>
+
+                    <div class="tip">
+                        <strong>💡 Interview Tips:</strong>
+                        <ul>
+                            <li><strong>Think out loud</strong> - explain your reasoning process</li>
+                            <li><strong>Ask clarifying questions</strong> - "Are we optimizing for performance or maintainability?"</li>
+                            <li><strong>Be honest about limitations</strong> - "I haven't used that specific framework, but..."</li>
+                            <li><strong>Give concrete examples</strong> - "In my last project, I..."</li>
+                            <li><strong>Show enthusiasm</strong> - show genuine interest in the problems</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const section = header.parentElement;
+        section.classList.toggle('active');
+        updateProgress();
+    }
+
+    function expandAll() {
+        const sections = document.querySelectorAll('.section');
+        sections.forEach(section => {
+            section.classList.add('active');
+        });
+        updateProgress();
+    }
+
+    function collapseAll() {
+        const sections = document.querySelectorAll('.section');
+        sections.forEach(section => {
+            section.classList.remove('active');
+        });
+        updateProgress();
+    }
+
+    function updateProgress() {
+        const totalSections = document.querySelectorAll('.section').length;
+        const activeSections = document.querySelectorAll('.section.active').length;
+        const progress = (activeSections / totalSections) * 100;
+        document.getElementById('progressBar').style.width = progress + '%';
+    }
+
+    // Smooth scrolling for better UX
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize progress
+        updateProgress();
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                collapseAll();
+            }
+            if (e.ctrlKey && e.key === 'a') {
+                e.preventDefault();
+                expandAll();
+            }
+        });
+
+        // Add search functionality
+        const searchBox = document.createElement('input');
+        searchBox.type = 'text';
+        searchBox.placeholder = '🔍 Search topics...';
+        searchBox.style.cssText = `
+                width: 100%;
+                max-width: 400px;
+                padding: 12px 20px;
+                border: 2px solid #e9ecef;
+                border-radius: 25px;
+                font-size: 1rem;
+                margin: 10px;
+                outline: none;
+                transition: all 0.3s ease;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            `;
+
+        searchBox.addEventListener('focus', function() {
+            this.style.borderColor = '#007bff';
+            this.style.boxShadow = '0 4px 15px rgba(0,123,255,0.2)';
+        });
+
+        searchBox.addEventListener('blur', function() {
+            this.style.borderColor = '#e9ecef';
+            this.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+        });
+
+        searchBox.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const sections = document.querySelectorAll('.section');
+
+            sections.forEach(section => {
+                const content = section.textContent.toLowerCase();
+                if (content.includes(searchTerm)) {
+                    section.style.display = 'block';
+                    if (searchTerm.length > 2) {
+                        section.classList.add('active');
+                    }
+                } else {
+                    section.style.display = searchTerm.length > 2 ? 'none' : 'block';
+                }
+            });
+
+            if (searchTerm.length === 0) {
+                sections.forEach(section => {
+                    section.style.display = 'block';
+                    section.classList.remove('active');
+                });
+            }
+            updateProgress();
+        });
+
+        document.querySelector('.controls').appendChild(searchBox);
+
+        // Add table of contents
+        const toc = document.createElement('div');
+        toc.style.cssText = `
+                background: rgba(255,255,255,0.95);
+                border-radius: 10px;
+                padding: 20px;
+                margin-bottom: 20px;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+                backdrop-filter: blur(10px);
+            `;
+
+        const tocTitle = document.createElement('h3');
+        tocTitle.textContent = '📋 Table of Contents';
+        tocTitle.style.cssText = `
+                margin: 0 0 15px 0;
+                color: #2c3e50;
+                text-align: center;
+            `;
+        toc.appendChild(tocTitle);
+
+        const tocList = document.createElement('ul');
+        tocList.style.cssText = `
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 10px;
+            `;
+
+        const sections = document.querySelectorAll('.section-header h2');
+        sections.forEach((section, index) => {
+            const li = document.createElement('li');
+            const link = document.createElement('a');
+            link.href = '#';
+            link.textContent = section.textContent.replace('▼', '').trim();
+            link.style.cssText = `
+                    display: block;
+                    padding: 8px 12px;
+                    color: #007bff;
+                    text-decoration: none;
+                    border-radius: 5px;
+                    transition: all 0.2s ease;
+                    font-size: 0.9rem;
+                `;
+
+            link.addEventListener('mouseenter', function() {
+                this.style.backgroundColor = '#f8f9fa';
+                this.style.transform = 'translateX(5px)';
+            });
+
+            link.addEventListener('mouseleave', function() {
+                this.style.backgroundColor = 'transparent';
+                this.style.transform = 'translateX(0)';
+            });
+
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetSection = document.querySelectorAll('.section')[index];
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+                targetSection.classList.add('active');
+                updateProgress();
+            });
+
+            li.appendChild(link);
+            tocList.appendChild(li);
+        });
+
+        toc.appendChild(tocList);
+
+        // Insert TOC after controls
+        const controls = document.querySelector('.controls');
+        controls.parentNode.insertBefore(toc, controls.nextSibling);
+
+        // Add floating action button for quick navigation
+        const fab = document.createElement('div');
+        fab.innerHTML = '↑';
+        fab.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+                color: white;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                font-size: 1.5rem;
+                font-weight: bold;
+                box-shadow: 0 4px 15px rgba(0,123,255,0.3);
+                transition: all 0.3s ease;
+                z-index: 1000;
+                opacity: 0;
+                transform: translateY(100px);
+            `;
+
+        fab.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        fab.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(0) scale(1.1)';
+            this.style.boxShadow = '0 6px 20px rgba(0,123,255,0.4)';
+        });
+
+        fab.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+            this.style.boxShadow = '0 4px 15px rgba(0,123,255,0.3)';
+        });
+
+        document.body.appendChild(fab);
+
+        // Show/hide FAB based on scroll position
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                fab.style.opacity = '1';
+                fab.style.transform = 'translateY(0)';
+            } else {
+                fab.style.opacity = '0';
+                fab.style.transform = 'translateY(100px)';
+            }
+        });
+
+        // Add print styles
+        const printStyles = document.createElement('style');
+        printStyles.textContent = `
+                @media print {
+                    .controls, .progress-bar, .expand-all, .collapse-all {
+                        display: none !important;
+                    }
+
+                    .section {
+                        page-break-inside: avoid;
+                        margin-bottom: 20px;
+                    }
+
+                    .section-content {
+                        max-height: none !important;
+                        overflow: visible !important;
+                    }
+
+                    .section-header {
+                        background: #f8f9fa !important;
+                        -webkit-print-color-adjust: exact;
+                    }
+
+                    pre {
+                        page-break-inside: avoid;
+                        border: 1px solid #ccc !important;
+                        background: #f8f9fa !important;
+                        -webkit-print-color-adjust: exact;
+                    }
+
+                    .header {
+                        background: #667eea !important;
+                        -webkit-print-color-adjust: exact;
+                        color: white !important;
+                    }
+                }
+            `;
+        document.head.appendChild(printStyles);
+
+        // Add copy code functionality
+        document.querySelectorAll('pre code').forEach(block => {
+            const copyButton = document.createElement('button');
+            copyButton.textContent = '📋 Copy';
+            copyButton.style.cssText = `
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                    background: #007bff;
+                    color: white;
+                    border: none;
+                    padding: 5px 10px;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    font-size: 0.8rem;
+                    opacity: 0;
+                    transition: opacity 0.3s ease;
+                `;
+
+            const pre = block.parentElement;
+            pre.style.position = 'relative';
+
+            pre.addEventListener('mouseenter', () => {
+                copyButton.style.opacity = '1';
+            });
+
+            pre.addEventListener('mouseleave', () => {
+                copyButton.style.opacity = '0';
+            });
+
+            copyButton.addEventListener('click', async () => {
+                try {
+                    await navigator.clipboard.writeText(block.textContent);
+                    copyButton.textContent = '✅ Copied!';
+                    setTimeout(() => {
+                        copyButton.textContent = '📋 Copy';
+                    }, 2000);
+                } catch (err) {
+                    console.error('Failed to copy: ', err);
+                }
+            });
+
+            pre.appendChild(copyButton);
+        });
+    });
+</script>
+</body>
+</html>
